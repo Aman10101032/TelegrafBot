@@ -11,17 +11,26 @@ const bot = new Telegraf(config.telegramToken, {});
 
 bot.start((ctx) => ctx.replyWithHTML(`Welcome, <b>${ctx.from.last_name}</b> ${ctx.from.last_name}\nStart: "menu"`))
 
-bot.on('message', (ctx) => {
-    ctx.reply("We are starting :)")
+bot.on('message', async ctx => {
+
     const chatID = ctx.chat.id;
 
     if (ctx.message.text === "menu") {
+        ctx.reply("We are starting :)");
         showMenu(bot, chatID);
     } else if (ctx.message.location) {
-        getWeather();
-    } else if (ctx.message.text === "get cat mem") {
-        getMem();
-    } else { closeMenu(bot, chatID); }
+        let weather = await getWeather(ctx);
+        ctx.reply(weather);
+    }
+    else if (ctx.message.text === "Get cat mem") {
+        let mem = await getMem();
+        ctx.reply(mem);
+    } else if (ctx.message.text === "Close") {
+        closeMenu(bot, chatID);
+    }
+    else {
+        ctx.sendMessage("I don't understand you :(");
+    }
 });
 
 

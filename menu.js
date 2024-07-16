@@ -22,7 +22,6 @@ export const showMenu = (bot, chatID) => {
 export const closeMenu = (bot, chatID) => {
     bot.telegram.sendMessage(chatID, "Keyboard close", {
         reply_markup: {
-            //removeKeyboard()
             remove_keyboard: true
         }
     });
